@@ -1,0 +1,21 @@
+CREATE DATABASE Cafe
+GO
+
+USE Cafe
+GO
+
+CREATE TABLE Account
+(
+	FullName NVARCHAR(100) NOT NULL DEFAULT N'Staff',
+	UserName NVARCHAR(100) PRIMARY KEY,
+	DateofBirth NVARCHAR(100) NOT NULL,
+	PassWord NVARCHAR(100) NOT NULL DEFAULT 0,
+	Type INT NOT NULL DEFAULT 0,
+	Image NVARCHAR(300) NULL,
+)
+GO
+
+INSERT INTO dbo.Account
+	(FullName, UserName, DateofBirth, PassWord, Type, Image)
+VALUES ('Boss', 'admin', '11/12/2005', 1, 1, NULL)
+GO 
