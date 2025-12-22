@@ -1,0 +1,120 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|c:\\users\\user\\documents\\cafeteria_group-3\\cafeteria\\formmembership.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|solutionrelative:formmembership.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|c:\\users\\user\\documents\\cafeteria_group-3\\cafeteria\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|solutionrelative:formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|c:\\users\\user\\documents\\cafeteria_group-3\\cafeteria\\formaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|solutionrelative:formaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|c:\\users\\user\\documents\\cafeteria_group-3\\cafeteria\\formorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|solutionrelative:formorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|c:\\users\\user\\documents\\cafeteria_group-3\\cafeteria\\formhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|solutionrelative:formhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|c:\\users\\user\\documents\\cafeteria_group-3\\cafeteria\\formlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE73B09E-A59B-4D10-9701-ABCF7E451A9F}|Cafeteria.csproj|solutionrelative:formlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormMembership.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormMembership.cs",
+              "RelativeDocumentMoniker": "FormMembership.cs",
+              "ToolTip": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormMembership.cs [Design]",
+              "RelativeToolTip": "FormMembership.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T07:34:46.108Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormAdmin.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "FormAdmin.cs",
+              "ToolTip": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormAdmin.cs [Design]",
+              "RelativeToolTip": "FormAdmin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T07:34:33.081Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FormAccount.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormAccount.cs",
+              "RelativeDocumentMoniker": "FormAccount.cs",
+              "ToolTip": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormAccount.cs [Design]",
+              "RelativeToolTip": "FormAccount.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T07:34:20.539Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FormOrder.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormOrder.cs",
+              "RelativeDocumentMoniker": "FormOrder.cs",
+              "ToolTip": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormOrder.cs [Design]",
+              "RelativeToolTip": "FormOrder.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T07:34:04.352Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FormHome.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormHome.cs",
+              "RelativeDocumentMoniker": "FormHome.cs",
+              "ToolTip": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormHome.cs [Design]",
+              "RelativeToolTip": "FormHome.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T07:33:48.457Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FormLogin.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormLogin.cs",
+              "RelativeDocumentMoniker": "FormLogin.cs",
+              "ToolTip": "C:\\Users\\USER\\Documents\\Cafeteria_Group-3\\Cafeteria\\FormLogin.cs [Design]",
+              "RelativeToolTip": "FormLogin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-22T07:33:02.045Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
