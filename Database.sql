@@ -19,3 +19,19 @@ INSERT INTO dbo.Account
 	(FullName, UserName, DateofBirth, PassWord, Type, Image)
 VALUES ('Boss', 'admin', '11/12/2005', 1, 1, NULL)
 GO 
+
+CREATE PROC USP_GetAccountByUserName
+@username nvarchar(100)
+AS
+BEGIN
+	SELECT * FROM dbo.Account WHERE UserName = @username
+END
+GO
+
+CREATE PROC USP_Login
+@username nvarchar(100), @password nvarchar(100)
+AS
+BEGIN
+	SELECT * FROM dbo.Account WHERE UserName = @username AND PassWord = @password
+END
+GO
