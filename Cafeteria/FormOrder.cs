@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿ void LoadCategory()
+ {
+     List<Category> listCategory = CategoryDAL.Instance.GetListCategory();
+     cbmenu.DataSource = listCategory;
+     cbmenu.DisplayMember = "Name";
+ }
 
-namespace Cafeteria
-{
-    public partial class FormOrder : Form
-    {
-        public FormOrder()
-        {
-            InitializeComponent();
-        }
-    }
-}
+ void LoadBeverageListByCategoryID(int id)
+ {
+     List<Beverage> listBeverage = BeverageDAL.Instance.GetBeverageByCategoryID(id);
+     cbbeverage.DataSource = listBeverage;
+     cbbeverage.DisplayMember = "Name";
+ }
