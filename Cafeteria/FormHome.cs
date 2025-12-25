@@ -1,10 +1,7 @@
-﻿using Cafeteria.DTO;
-using System;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,16 +19,19 @@ namespace Cafeteria
             get { return loginAccount; }
             set { loginAccount = value; ChangeAccount(loginAccount.Type); }
         }
+
         public FormHome(Account acc)
         {
             InitializeComponent();
             this.LoginAccount = acc;
             LoadUserInfo();
         }
+        
         void ChangeAccount(int type)
         {
             adminToolStripMenuItem.Visible = type == 1;
         }
+
         private void btlogout_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -55,6 +55,7 @@ namespace Cafeteria
             FormAccount f = new FormAccount(LoginAccount);
             f.ShowDialog();
         }
+
         void LoadUserInfo()
         {
             tbfn_home.Text = loginAccount.FullName;
@@ -69,16 +70,6 @@ namespace Cafeteria
             {
                 ptbava.Image = null;
             }
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tbun_home_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
