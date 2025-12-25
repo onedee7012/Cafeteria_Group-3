@@ -36,6 +36,25 @@ BEGIN
 END
 GO
 
+CREATE TABLE CoffeeTable
+(
+	id INT IDENTITY PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL DEFAULT N'NotNamed',
+	status NVARCHAR(100) NOT NULL DEFAULT N'Empty'  
+)
+GO
+
+DECLARE @i INT = 0
+WHILE @i <= 12
+BEGIN 
+	INSERT dbo.CoffeeTable (name) VALUES ( N'Table ' + CAST(@i AS nvarchar(100)))
+	SET @i = @i + 1
+END
+
+CREATE PROC USP_GetTableList
+AS SELECT * FROM dbo.CoffeeTable
+GO
+
 CREATE PROC USP_InsertBill
 @idTable INT
 AS
