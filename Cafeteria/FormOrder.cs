@@ -16,5 +16,34 @@ namespace Cafeteria
         {
             InitializeComponent();
         }
+        void LoadTable()
+        {
+            flpTable.Controls.Clear();
+
+            List<Table> tableList = TableDAL.Instance.LoadTableList();
+
+            foreach (Table item in tableList)
+            {
+                Button btn = new Button() { Width = TableDAL.TableWidth, Height = TableDAL.TableHeight };
+                btn.Text = item.Name + Environment.NewLine + item.Status;
+                btn.Click += btn_Click;
+                btn.Tag = item;
+
+                switch (item.Status)
+                {
+                case "Empty":
+                    btn.BackColor = Color.Teal;
+                    break;
+                default:
+                    btn.BackColor = Color.Chocolate;
+                    break;
+                }
+                flpTable.Controls.Add(btn);
+            }
+        }
     }
 }
+
+
+
+
