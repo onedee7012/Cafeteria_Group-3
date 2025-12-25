@@ -35,3 +35,39 @@ BEGIN
 	SELECT * FROM dbo.Account WHERE UserName = @username AND PassWord = @password
 END
 GO
+
+CREATE TABLE Menu
+(
+	id INT IDENTITY PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL DEFAULT N'NotNamed'
+)
+GO
+
+CREATE TABLE Beverage
+(
+	id INT IDENTITY PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL DEFAULT N'NotNamed',
+	idMenu INT NOT NULL,
+	price INT NOT NULL DEFAULT 0,
+	image NVARCHAR(300) NULL,
+
+	FOREIGN KEY (idMenu) REFERENCES dbo.Menu(id)
+)
+GO
+
+INSERT INTO dbo.Menu (name)
+VALUES ("Coffee"), ("Tea"), ("Frappuccino"), ("Others")
+GO 
+
+INSERT INTO dbo.Beverage (name, idMenu, price, image)
+VALUES ('Matcha latte', 4, 39000, NULL)
+GO
+INSERT INTO dbo.Beverage (name, idMenu, price, image)
+VALUES ('Capuccino', 1, 39000, NULL)
+GO
+INSERT INTO dbo.Beverage (name, idMenu, price, image)
+VALUES ('Peach tea', 2, 39000, NULL)
+GO
+INSERT INTO dbo.Beverage (name, idMenu, price, image)
+VALUES ('Strawberry yoghurt', 3, 49000, NULL)
+GO
