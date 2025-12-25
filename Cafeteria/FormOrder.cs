@@ -129,6 +129,28 @@ namespace Cafeteria
             }
         }
 
+        void f_InsertBeverage(object sender, EventArgs e)
+        {
+            LoadBeverageListByCategoryID((cbmenu.SelectedItem as Category).ID);
+            if (lvBill.Tag != null)
+                ShowBill((lvBill.Tag as Table).ID);
+        }
+
+        void f_UpdateBeverage(object sender, EventArgs e)
+        {
+            LoadBeverageListByCategoryID((cbmenu.SelectedItem as Category).ID);
+            if (lvBill.Tag != null)
+                ShowBill((lvBill.Tag as Table).ID);
+        }
+
+        void f_DeleteBeverage(object sender, EventArgs e)
+        {
+            LoadBeverageListByCategoryID((cbmenu.SelectedItem as Category).ID);
+            if (lvBill.Tag != null)
+                ShowBill((lvBill.Tag as Table).ID);
+            LoadTable();
+        }
+
         void ShowBill(int id)
         {
             lvBill.Items.Clear();
