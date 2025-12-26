@@ -1,4 +1,4 @@
-using Cafeteria.DAL;
+﻿using Cafeteria.DAL;
 using Cafeteria.DTO;
 using System;
 using System.Collections.Generic;
@@ -212,15 +212,24 @@ namespace Cafeteria
                 if (MessageBox.Show(string.Format("Are you sure to pay for the {0}?", table.Name), "Thông báo", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
                 {
                     List<Menu> listBillInfor = MenuDAL.Instance.GetListMenuByTable(table.ID);
-                    BillDAL.Instance.Checkout(idBill, discount, idmember, namemember, staff, (float)finalTotalPrice, (float)point);             
+                    BillDAL.Instance.Checkout(idBill, discount, idmember, namemember, staff, (float)finalTotalPrice, (float)point);
+                    if (idmember != 0)
+                    {
+                        MembershipDAL.Instance.AddPointToMember(idmember, point);
+                    }
                     TableDAL.Instance.UpdateTableStatus(table.ID, "Empty");
                     Bill billInfo = BillDAL.Instance.GetBillByID(idBill);
                     DateTime checkin = billInfo.DateCheckIn ?? DateTime.Now;
                     DateTime checkout = billInfo.DateCheckOut ?? DateTime.Now;
+
+                    FormReceipt f = new FormReceipt();
+                    f.LoadReport(idBill, table.Name, checkin, checkout, staff, namemember, totalPrice, discount, finalTotalPrice, point, listBillInfor);
+                    f.ShowDialog();
                     ShowBill(table.ID);
                     LoadTable();
+                    ResetForm();
                 }
-            }
+            }    
         }
     }
 }
