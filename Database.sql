@@ -189,3 +189,25 @@ BEGIN
 END
 GO 
 
+CREATE TABLE Ingredient
+(
+	id INT IDENTITY PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL,
+	supplier NVARCHAR(100) NOT NULL,
+	quantity INT NOT NULL,
+	usedquantity INT NOT NULL,
+	leftquantity INT NOT NULL,
+	dateIn NVARCHAR(100) NOT NULL,
+	dateOut NVARCHAR(100) NOT NULL,
+)
+GO
+
+CREATE TABLE Membership
+(
+	id INT IDENTITY PRIMARY KEY,
+	name NVARCHAR(100) NOT NULL,
+	dateofbirth NVARCHAR(100) NOT NULL,
+	phonenumber NVARCHAR(100) NOT NULL,
+	totalpoint FLOAT NOT NULL DEFAULT 0,
+)
+GO
