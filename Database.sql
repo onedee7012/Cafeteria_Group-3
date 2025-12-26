@@ -211,3 +211,49 @@ CREATE TABLE Membership
 	totalpoint FLOAT NOT NULL DEFAULT 0,
 )
 GO
+
+CREATE PROC USP_GetListBillByDateTime
+@checkin datetime, @checkout datetime
+AS 
+BEGIN
+	SELECT dbo.Bill.idTable, dbo.Bill.id, dbo.CoffeeTable.name, DateCheckin, DateCheckout, discount, dbo.Bill.totalPrice, dbo.Bill.idMember, dbo.Bill.nameMember, dbo.Bill.staff
+	FROM dbo.Bill, dbo.CoffeeTable
+	WHERE DateCheckin >= @checkin AND DateCheckout <= @checkout AND dbo.Bill.status = 1 AND dbo.CoffeeTable.id = dbo.Bill.idTable
+END
+GO
+
+CREATE PROC USP_GetListBillByDateAndPage
+@checkin date, @checkout date, @page int
+AS 
+BEGIN
+	DECLARE @pageRows INT = 10
+	DECLARE @selectRows INT = @pageRows
+	DECLARE @exceptRows INT = (@page - 1) * @pageRows
+
+	;WITH BillShow AS (SELECT dbo.Bill.id, dbo.CoffeeTable.name, dbo.Bill.totalPrice, DateCheckin, DateCheckout, discount, staff
+	FROM dbo.Bill, dbo.CoffeeTable
+	WHERE DateCheckin >= @checkin AND DateCheckout <= @checkout AND dbo.Bill.status = 1 AND dbo.CoffeeTable.id = dbo.Bill.idTable)
+	
+	SELECT TOP (@selectRows) * FROM BillShow WHERE id NOT IN (SELECT TOP (@exceptRows) id FROM BillShow)
+END
+GO
+
+CREATE PROC USP_GetNumberBillByDate
+@checkin date, @checkout date
+AS
+BEGIN
+	SELECT COUNT(*)
+	FROM dbo.Bill, dbo.CoffeeTable
+	WHERE DateCheckin >= @checkin AND DateCheckout <= @checkout AND dbo.Bill.status = 1 AND dbo.CoffeeTable.id = dbo.Bill.idTable 
+END
+GO
+
+CREATE PROC USP_GetListBill
+@checkin date, @checkout date
+AS 
+BEGIN
+	SELECT DateCheckin, DateCheckout, dbo.BillInfor.idBill, dbo.BillInfor.idBeverage, dbo.Beverage.name, dbo.BillInfor.quantity
+	FROM dbo.Bill, dbo.BillInfor, dbo.Beverage
+	WHERE DateCheckin >= @checkin AND DateCheckout <= @checkout AND dbo.Bill.status = 1 AND dbo.Beverage.id = dbo.BillInfor.idBeverage AND dbo.Bill.id = dbo.BillInfor.idBill 
+END
+GO
