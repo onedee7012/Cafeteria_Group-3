@@ -134,5 +134,71 @@ namespace Cafeteria
         {
             UpdateLeftQuantity();
         }
+
+        void LoadDateTimePickerBill()
+        {
+            DateTime today = DateTime.Now;
+            dtpstart.Value = new DateTime(today.Year, today.Month, 1);
+            dtpend.Value = dtpstart.Value.AddMonths(1).AddDays(-1).Date.AddDays(1).AddTicks(-1);
+        }
+        void LoadListBillByDate(DateTime checkin, DateTime checkout)
+        {
+            dtgvBill.DataSource = BillDAL.Instance.GetListBillByDateTime(checkin, checkout);
+            if (dtgvBill.Columns["totalPrice"] != null)
+            {
+                dtgvBill.Columns["totalPrice"].DefaultCellStyle.Format = "#,0.000";
+                dtgvBill.Columns["totalPrice"].DefaultCellStyle.FormatProvider = new CultureInfo("vi-VN");
+            }
+        }
+        private void btload_Click(object sender, EventArgs e)
+        {
+            LoadListBillByDate(dtpstart.Value, dtpend.Value);
+        }
+        private void btincome_Click(object sender, EventArgs e)
+        {
+            float income = 0;
+            foreach (DataGridViewRow row in dtgvBill.Rows)
+            {
+                if (row.Cells["totalPrice"].Value != null)
+                {
+                    float price = Convert.ToSingle(row.Cells["totalPrice"].Value);
+                    income += price;
+                }
+            }
+            CultureInfo ci = new CultureInfo("vi-VN");
+            tbtotalin.Text = income.ToString("#,0.000", ci) + " VNĐ";
+        }
+
+        private void btfirst_Click(object sender, EventArgs e)
+        {
+            tbnp.Text = "1";
+        }
+        private void btpre_Click(object sender, EventArgs e)
+        {
+            int page = Convert.ToInt32(tbnp.Text);
+            if (page > 1)
+                page--;
+            tbnp.Text = page.ToString();
+        }
+        private void btnext_Click(object sender, EventArgs e)
+        {
+            int page = Convert.ToInt32(tbnp.Text);
+            int sumRecord = BillDAL.Instance.GetNumberBillByDate(dtpstart.Value, dtpend.Value);
+            if (page < sumRecord)
+                page++;
+            tbnp.Text = page.ToString();
+        }
+        private void btlast_Click(object sender, EventArgs e)
+        {
+            int sumRecord = BillDAL.Instance.GetNumberBillByDate(dtpstart.Value, dtpend.Value);
+            int lastPage = sumRecord / 10;
+            if (sumRecord % 10 != 0)
+                lastPage++;
+            tbnp.Text = lastPage.ToString();
+        }
+        private void tbnp_TextChanged(object sender, EventArgs e)
+        {
+            dtgvBill.DataSource = BillDAL.Instance.GetListBillByDateAndPage(dtpstart.Value, dtpend.Value, Convert.ToInt32(tbnp.Text));
+        }
     }
 }
