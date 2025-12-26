@@ -231,6 +231,39 @@ namespace Cafeteria
                 }
             }    
         }
+
+        void LoadMemberPhoneList()
+        {
+            List<Membership> members = MembershipDAL.Instance.GetMembership();
+            cbphone.DataSource = members;
+            cbphone.DisplayMember = "Phonenumber";
+            cbphone.ValueMember = "Id";
+            cbphone.SelectedIndex = -1;
+            tbidmb.Text = "0";
+            tbmb.Text = "0";
+            tbmp.Text = "0";
+        }
+
+        private void cbphone_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbphone.SelectedIndex == -1 || cbphone.SelectedItem == null)
+            {
+                tbidmb.Text = "0";
+                tbmb.Text = "0";
+                tbmp.Text = "0";
+            }
+        
+            else
+            {
+                Membership selectedMember = cbphone.SelectedItem as Membership;
+                if (selectedMember != null)
+                {
+                    tbidmb.Text = selectedMember.Id.ToString();
+                    tbmb.Text = selectedMember.Name;
+                    tbmp.Text = selectedMember.Totalpoint.ToString();
+                }
+            }
+        }   
     }
 }
 
