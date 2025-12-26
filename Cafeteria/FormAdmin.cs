@@ -49,5 +49,90 @@ namespace Cafeteria
             CultureInfo ci = new CultureInfo("vi-VN");
             tbins.Text = total.ToString("#,0.000", ci) + " VNĐ";
         }
+
+        void LoadListIngredient()
+        {
+            ingredientList.DataSource = IngredientDAL.Instance.GetListIngredient();
+        }
+        void AddIngredientBinding()
+        {
+            tbin.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "name", true, DataSourceUpdateMode.Never));
+            tbiid.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "id", true, DataSourceUpdateMode.Never));
+            tbis.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "supplier", true, DataSourceUpdateMode.Never));
+            tbiq.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "quantity", true, DataSourceUpdateMode.Never));
+            tbiuq.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "usedquantity", true, DataSourceUpdateMode.Never));
+            tbilq.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "leftquantity", true, DataSourceUpdateMode.Never));
+            tbidi.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "dateIn", true, DataSourceUpdateMode.Never));
+            tbido.DataBindings.Add(new Binding("Text", dtgvIngredient.DataSource, "dateOut", true, DataSourceUpdateMode.Never));
+        }
+        private void btaddi_Click(object sender, EventArgs e)
+        {
+            string name = tbin.Text;
+            int quantity = int.Parse(tbiq.Text);
+            int used = int.Parse(tbiuq.Text);
+            int left = quantity - used;
+            string dateIn = tbidi.Text;
+            string dateOut = tbido.Text;
+            string supplier = tbis.Text;
+            if (IngredientDAL.Instance.InsertIngredient(name, supplier, quantity, used, left, dateIn, dateOut))
+            {
+                MessageBox.Show("Add ingredient successfully");
+                LoadListIngredient();
+            }
+            else
+            {
+                MessageBox.Show("Add failed");
+            }
+        }
+        private void btupi_Click(object sender, EventArgs e)
+        {
+            string name = tbin.Text;
+            int quantity = int.Parse(tbiq.Text);
+            int used = int.Parse(tbiuq.Text);
+            int left = quantity - used;
+            string dateIn = tbidi.Text;
+            string dateOut = tbido.Text;
+            string supplier = tbis.Text;
+            int id = Convert.ToInt32(tbiid.Text);
+            if (IngredientDAL.Instance.UpdateIngredient(id, name, quantity, used, left, dateIn, dateOut, supplier))
+            {
+                MessageBox.Show("Update ingredient successfully");
+                LoadListIngredient();
+            }   
+            else
+            {
+                MessageBox.Show("Update failed");
+            }
+        }
+        private void btdei_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(tbiid.Text);
+            if (IngredientDAL.Instance.DeleteIngredient(id))
+            {
+                MessageBox.Show("Delete ingredient successfully");
+                LoadListIngredient();
+            }
+            else
+            {
+                MessageBox.Show("Delete failed");
+            }
+        }
+        private void UpdateLeftQuantity()
+        {
+            int quantity = 0;
+            int used = 0;
+            int.TryParse(tbiq.Text, out quantity);
+            int.TryParse(tbiuq.Text, out used);
+            int left = quantity - used;
+            tbilq.Text = left.ToString();
+        }
+        private void tbiq_TextChanged(object sender, EventArgs e)
+        {
+            UpdateLeftQuantity();
+        }
+        private void tbiuq_TextChanged(object sender, EventArgs e)
+        {
+            UpdateLeftQuantity();
+        }
     }
 }
