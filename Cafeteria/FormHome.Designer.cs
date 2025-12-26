@@ -44,6 +44,7 @@
             this.ptbava = new System.Windows.Forms.PictureBox();
             this.btlogout = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.membershipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -60,7 +61,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.adminToolStripMenuItem,
             this.orderToolStripMenuItem,
-            this.accountToolStripMenuItem});
+            this.accountToolStripMenuItem,
+            this.membershipToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
@@ -110,13 +112,14 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(456, -253);
+            this.pictureBox1.Location = new System.Drawing.Point(449, -281);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(842, 1200);
+            this.pictureBox1.Size = new System.Drawing.Size(842, 1250);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // tbfn_home
             // 
@@ -157,7 +160,6 @@
             this.tbun_home.Size = new System.Drawing.Size(320, 58);
             this.tbun_home.TabIndex = 3;
             this.tbun_home.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tbun_home.TextChanged += new System.EventHandler(this.tbun_home_TextChanged);
             // 
             // label2
             // 
@@ -239,7 +241,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(554, 888);
             this.panel1.TabIndex = 1;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // membershipToolStripMenuItem
+            // 
+            this.membershipToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.membershipToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.membershipToolStripMenuItem.Name = "membershipToolStripMenuItem";
+            this.membershipToolStripMenuItem.Size = new System.Drawing.Size(248, 54);
+            this.membershipToolStripMenuItem.Text = "Membership";
+            this.membershipToolStripMenuItem.Click += new System.EventHandler(this.membershipToolStripMenuItem_Click);
             // 
             // FormHome
             // 
@@ -285,5 +295,6 @@
         private System.Windows.Forms.PictureBox ptbava;
         private System.Windows.Forms.Button btlogout;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem membershipToolStripMenuItem;
     }
 }
