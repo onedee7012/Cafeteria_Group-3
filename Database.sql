@@ -91,6 +91,36 @@ CREATE PROC USP_GetTableList
 AS SELECT * FROM dbo.CoffeeTable
 GO
 
+CREATE TABLE Bill
+(
+	id INT IDENTITY PRIMARY KEY,
+	DateCheckin DATE NOT NULL DEFAULT GETDATE(),
+	DateCheckout DATETIME,
+	staff NVARCHAR(100) NOT NULL DEFAULT N'Notnamed',
+	idTable INT NOT NULL,
+	status INT NOT NULL DEFAULT 0,
+	idMember INT NULL DEFAULT 0,
+	nameMember NVARCHAR(100) NOT NULL DEFAULT N'Notnamed',
+	discount INT,
+	totalPrice FLOAT,
+	point FLOAT NOT NULL DEFAULT 0,
+
+	FOREIGN KEY (idTable) REFERENCES dbo.CoffeeTable(id)
+)
+GO
+
+CREATE TABLE BillInfor
+(
+	id INT IDENTITY PRIMARY KEY,
+	idBill INT NOT NULL,
+	idBeverage	INT NOT NULL,
+	quantity INT NOT NULL DEFAULT 0,
+
+	FOREIGN KEY (idBill) REFERENCES dbo.Bill(id),
+	FOREIGN KEY (idBeverage) REFERENCES dbo.Beverage(id)
+)
+GO
+
 CREATE PROC USP_InsertBill
 @idTable INT
 AS
@@ -101,6 +131,7 @@ BEGIN
 	SELECT SCOPE_IDENTITY();
 END
 GO
+
 
 CREATE PROC USP_InsertBillInfor
 @idBill INT, @idBeverage INT, @count INT
@@ -157,3 +188,4 @@ BEGIN
 	UPDATE dbo.CoffeeTable SET status = N'Full' WHERE id = @idTable
 END
 GO 
+
