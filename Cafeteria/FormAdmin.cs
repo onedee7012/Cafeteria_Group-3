@@ -200,5 +200,115 @@ namespace Cafeteria
         {
             dtgvBill.DataSource = BillDAL.Instance.GetListBillByDateAndPage(dtpstart.Value, dtpend.Value, Convert.ToInt32(tbnp.Text));
         }
+
+        void AddAccountBinding()
+        {
+            tbuser.DataBindings.Add(new Binding("Text", dtgvAccount.DataSource, "UserName", true, DataSourceUpdateMode.Never));      
+            tbfn.DataBindings.Add(new Binding("Text", dtgvAccount.DataSource, "FullName", true, DataSourceUpdateMode.Never));
+            tbpass.DataBindings.Add(new Binding("Text", dtgvAccount.DataSource, "PassWord", true, DataSourceUpdateMode.Never));
+            tbdob.DataBindings.Add(new Binding("Text", dtgvAccount.DataSource, "DateofBirth", true, DataSourceUpdateMode.Never));
+            numrole.DataBindings.Add(new Binding("Value", dtgvAccount.DataSource, "Type", true, DataSourceUpdateMode.Never));
+
+            dtgvAccount.SelectionChanged += dtgvAccount_SelectionChanged;
+            ShowSelectedImage();
+        }
+
+        private void dtgvAccount_SelectionChanged(object sender, EventArgs e)
+        {
+            ShowSelectedImage();
+        }
+
+        private void ShowSelectedImage()
+        {
+            if (dtgvAccount.CurrentRow != null)
+            {
+                var cellValue = dtgvAccount.CurrentRow.Cells["Image"].Value;
+                string imagePath = cellValue != null ? cellValue.ToString() : "";
+
+                if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                {
+                    ptbstaff.Image = Image.FromFile(imagePath);
+                }
+                else
+                {
+                    ptbstaff.Image = null;
+                }
+            }
+        }
+
+        void LoadAccount()
+        {
+            accountList.DataSource = AccountDAL.Instance.GetListAccount();
+        }
+
+        void AddAccount(string userName, string fullName, string passWord, string dateofbirth, int type)
+        {
+            if (AccountDAL.Instance.AddAccount(userName, fullName, passWord, dateofbirth, type))
+            {
+                MessageBox.Show("Add account successfully");
+            }
+            else
+            {
+                MessageBox.Show("Add account failed");
+            }
+            LoadAccount();
+        }
+
+        void UpdateAccount(string username, string fullname, string dateofbirth, int type)
+        {
+            if (AccountDAL.Instance.UpdateAccount(username, fullname, dateofbirth, type))
+            {
+                MessageBox.Show("Update account successfully");
+            }
+            else
+            {
+                MessageBox.Show("Update account failed");
+            }
+            LoadAccount();
+        }
+
+        void DeleteAccount(string username)
+        {
+            if (loginAccount.UserName.Equals(username))
+            {
+                MessageBox.Show("Don't delete your account");
+                return;
+            }
+            if (AccountDAL.Instance.DeleteAccount(username))
+            {
+                MessageBox.Show("Delete account successfully");
+            }
+            else
+            {
+                MessageBox.Show("Delete account failed");
+            }
+            LoadAccount();
+        }
+
+        private void btadds_Click(object sender, EventArgs e)
+        {
+            string userName = tbuser.Text;
+            string fullName = tbfn.Text;
+            string passWord = tbpass.Text;
+            int type = (int)numrole.Value;
+            string dateofbirth = tbdob.Text;
+            AddAccount(userName, fullName, passWord, dateofbirth, type);
+        }
+
+        private void btups_Click(object sender, EventArgs e)
+        {
+            string userName = tbuser.Text;
+            string fullName = tbfn.Text;
+            int type = (int)numrole.Value;
+            string dateofbirth = tbdob.Text;
+            UpdateAccount(userName, fullName, dateofbirth, type);
+        }
+
+        private void btdes_Click(object sender, EventArgs e)
+        {
+            string userName = tbuser.Text;
+            DeleteAccount(userName);
+        }
+
     }
 }
