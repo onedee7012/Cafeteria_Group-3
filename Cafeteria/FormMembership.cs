@@ -118,5 +118,10 @@ namespace Cafeteria
 
             }
         }
+
+        private void btlogmem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
