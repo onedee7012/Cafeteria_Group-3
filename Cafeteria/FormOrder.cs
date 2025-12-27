@@ -29,10 +29,15 @@ namespace Cafeteria
         public FormOrder(Account acc)
         {
             InitializeComponent();
+            this.cbphone.SelectedIndexChanged += new System.EventHandler(this.cbphone_SelectedIndexChanged);
+            cbphone.DropDownStyle = ComboBoxStyle.DropDown; 
+            cbphone.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cbphone.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.LoginAccount = acc;
             ShowStaffName();
             LoadTable();
             LoadCategory();
+            LoadMemberPhoneList();
         }
 
         private void ShowStaffName()
@@ -263,6 +268,11 @@ namespace Cafeteria
                     tbmp.Text = selectedMember.Totalpoint.ToString();
                 }
             }
+        }
+
+        private void btlogout_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }   
     }
 }
