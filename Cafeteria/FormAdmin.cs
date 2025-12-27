@@ -322,6 +322,7 @@ namespace Cafeteria
                 }
                 
             }
+        }
 
         void LoadDatePickerBillInfor()
         {
@@ -488,6 +489,8 @@ namespace Cafeteria
             FormStatistics statForm = new FormStatistics();
             statForm.LoadRevenueByStaffChart(revenueByStaff);
             statForm.ShowDialog();
+        }
+        
         private void tbbid_TextChanged(object sender, EventArgs e)
         {
             if (dtgvBeverage.SelectedCells.Count > 0)
