@@ -49,5 +49,26 @@ namespace Cafeteria.DAL
 
             return list;
         }
+
+        public static bool InsertBeverage(string name, int idcategory, float price, string image)
+        {
+            string query = string.Format("INSERT dbo.Beverage ( name, idMenu, price, image ) VALUES ( N'{0}', {1}, {2}, N'{3}' )", name, idcategory, price, image);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+
+        public static bool UpdateBeverage(int idbeverage, string name, int idcategory, float price, string image)
+        {
+            string query = string.Format("UPDATE dbo.Beverage SET name = N'{0}', idMenu = {1}, price = {2}, image = N'{3}' WHERE id = {4}", name, idcategory, price, image, idbeverage);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+
+        public bool DeleteBeverage(int idbeverage)
+        {
+            string query = string.Format("DELETE Beverage WHERE id = {0}", idbeverage);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
     }
 }
