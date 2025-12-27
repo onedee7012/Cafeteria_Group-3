@@ -36,5 +36,10 @@ namespace Cafeteria.DAL
             }
             return tableList;
         }
+        public void UpdateTableStatus(int tableID, string status)
+        {
+            string query = "UPDATE dbo.CoffeeTable SET status = @status WHERE id = @id";
+            DataProvider.Instance.ExecuteNonQuery(query, new object[] { status, tableID });
+        }
     }
 }
