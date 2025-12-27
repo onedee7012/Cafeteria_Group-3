@@ -310,5 +310,44 @@ namespace Cafeteria
             DeleteAccount(userName);
         }
 
+        private void btsi_Click(object sender, EventArgs e)
+        {
+            DateTime start = dtpstart.Value.Date;
+            DateTime end = dtpend.Value.Date;
+            DataTable bills = BillDAL.Instance.GetListBillByDateTime(start, end);
+            Dictionary<DateTime, float> revenueByDate = new Dictionary<DateTime, float>();
+            foreach (DataRow row in bills.Rows)
+            {
+                DateTime date = Convert.ToDateTime(row["DateCheckin"]).Date;
+                float total = row["totalPrice"] == DBNull.Value ? 0 : Convert.ToSingle(row["totalPrice"]);
+
+                if (revenueByDate.ContainsKey(date))
+                    revenueByDate[date] += total;
+                else
+                    revenueByDate[date] = total;
+            }
+            FormStatistics statForm = new FormStatistics();
+            statForm.LoadRevenueChart(revenueByDate);
+            statForm.ShowDialog();
+        }
+        private void btsr_Click(object sender, EventArgs e)
+        {
+            DataTable bills = BillDAL.Instance.GetListBillByDateTime(dtpstart.Value.Date, dtpend.Value.Date);
+            Dictionary<string, float> revenueByStaff = new Dictionary<string, float>();
+            foreach (DataRow row in bills.Rows)
+            {
+                string staff = row["staff"]?.ToString();
+                if (string.IsNullOrEmpty(staff))
+                    continue;
+                float total = row["totalPrice"] == DBNull.Value ? 0 : Convert.ToSingle(row["totalPrice"]);
+                if (revenueByStaff.ContainsKey(staff))
+                    revenueByStaff[staff] += total;
+                else
+                    revenueByStaff[staff] = total;
+            }
+            FormStatistics statForm = new FormStatistics();
+            statForm.LoadRevenueByStaffChart(revenueByStaff);
+            statForm.ShowDialog();
+        }
     }
 }
