@@ -47,5 +47,20 @@ namespace Cafeteria.DAL
             int result = DataProvider.Instance.ExecuteNonQuery(query);
             return result > 0;
         }
+
+        public bool AddMembership(string name, string dateofbirth, string phonenumber)
+        {
+            string query = string.Format("INSERT dbo.Membership ( name, dateofbirth, phonenumber ) VALUES ( N'{0}', N'{1}', N'{2}' )", name, dateofbirth, phonenumber);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+
+        public bool DeleteMembership(int id)
+        {
+            string query = string.Format("DELETE Membership WHERE id = N'{0}'", id);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+
     }
 }

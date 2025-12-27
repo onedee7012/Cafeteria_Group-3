@@ -417,5 +417,42 @@ namespace Cafeteria
             remove { insertBeverage -= value; }
         }
 
+        private void LoadBillIDToComboBox()
+        {
+            DataTable billTable = BillDAL.Instance.GetListBillByDateTime(new DateTime(1753, 1, 1), DateTime.Now);
+            cbib.DataSource = billTable;
+            cbib.DisplayMember = "id";
+            cbib.ValueMember = "id";
+            cbib.SelectedIndex = -1;
+        }
+        private void btsb_Click(object sender, EventArgs e)
+        {
+            if (cbib.SelectedValue == null)
+            {
+                MessageBox.Show("Please choose the id of the receipt");
+                return;
+            }
+            int billID = Convert.ToInt32(cbib.SelectedValue);
+
+            Bill bill = BillDAL.Instance.GetBillByID(billID);
+            if (bill == null)
+            {
+                MessageBox.Show("Can't find the receipt.");
+                return;
+            }
+            List<Menu> menuList = MenuDAL.Instance.GetListMenuByBill(billID);
+            string tableName = bill.TableName ?? ("Bàn số " + bill.IdTable);
+            DateTime checkin = bill.DateCheckIn ?? DateTime.Now;
+            DateTime checkout = bill.DateCheckOut ?? DateTime.Now;
+            string staff = bill.Staff;
+            string memberName = string.IsNullOrEmpty(bill.NameMember) ? "0" : bill.NameMember;
+            float price = menuList.Sum(m => m.TotalPrice);
+            int discount = bill.Discount;
+            float total = bill.TotalPrice;
+            float point = bill.Point;
+            FormReceipt receiptForm = new FormReceipt();
+            receiptForm.LoadReport(billID, tableName, checkin, checkout, staff, memberName, price, discount, total, point, menuList);
+            receiptForm.ShowDialog();
+        }
     }
 }
