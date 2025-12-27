@@ -55,6 +55,11 @@ namespace Cafeteria
             FormAccount f = new FormAccount(LoginAccount);
             f.ShowDialog();
         }
+        private void membershipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormMembership f = new FormMembership();
+            f.ShowDialog();
+        }
 
         void LoadUserInfo()
         {
