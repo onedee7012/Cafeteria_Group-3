@@ -93,5 +93,24 @@ namespace Cafeteria
             DeleteMembership(id);
         }
 
-    }
+        private void dtgvMembership_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var grid = sender as DataGridView;
+            var row = grid.Rows[e.RowIndex];
+            if (!row.IsNewRow)
+            {
+                if (row.Cells["totalpoint"].Value != null &&
+                    decimal.TryParse(row.Cells["totalpoint"].Value.ToString(), out decimal totalPoint))
+                {
+                    if (totalPoint >= 100)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightGreen;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                    }
+                }
+
+            }
 }
