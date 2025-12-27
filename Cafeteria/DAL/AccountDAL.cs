@@ -74,6 +74,12 @@ namespace Cafeteria.DAL
 
             return list;
         }
+
+        public static bool EditAccount(string userName, string fullName, string passWord, string newpassWord, string image)
+        {
+            int result = DataProvider.Instance.ExecuteNonQuery("EXEC USP_UpdateAccount @username , @password , @fullname , @newpassword , @image", new object[] { userName, fullName, passWord, newpassWord, image });
+            return result > 0;
+        }
     }
 }
         
