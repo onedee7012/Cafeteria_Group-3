@@ -309,6 +309,19 @@ namespace Cafeteria
             string userName = tbuser.Text;
             DeleteAccount(userName);
         }
-
+        
+        private void dtgvIngredient_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dtgvIngredient.Rows[e.RowIndex].Cells["leftquantity"].Value != null)
+            {
+                int leftValue;
+                bool isParsed = int.TryParse(dtgvIngredient.Rows[e.RowIndex].Cells["leftquantity"].Value.ToString(), out leftValue);
+                if (isParsed && leftValue < 2)
+                {
+                    dtgvIngredient.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                }
+                
+            }
+        }
     }
 }
