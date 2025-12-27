@@ -322,7 +322,7 @@ namespace Cafeteria
                 }
                 
             }
-
+        }
         void LoadDatePickerBillInfor()
         {
             DateTime today = DateTime.Now;
@@ -435,7 +435,8 @@ namespace Cafeteria
                 chartData = bottom3;
             }
             LoadWorstSellerChart(chartData);
-         void LoadCategoryIntoCombobox(ComboBox cb)
+        }
+        void LoadCategoryIntoCombobox(ComboBox cb)
         {
              cb.DataSource = CategoryDAL.Instance.GetListCategory();
              cb.DisplayMember = "Name";
@@ -470,6 +471,7 @@ namespace Cafeteria
             statForm.LoadRevenueChart(revenueByDate);
             statForm.ShowDialog();
         }
+
         private void btsr_Click(object sender, EventArgs e)
         {
             DataTable bills = BillDAL.Instance.GetListBillByDateTime(dtpstart.Value.Date, dtpend.Value.Date);
@@ -488,6 +490,7 @@ namespace Cafeteria
             FormStatistics statForm = new FormStatistics();
             statForm.LoadRevenueByStaffChart(revenueByStaff);
             statForm.ShowDialog();
+        }
         private void tbbid_TextChanged(object sender, EventArgs e)
         {
             if (dtgvBeverage.SelectedCells.Count > 0)
@@ -510,7 +513,7 @@ namespace Cafeteria
             }
         }
 
-         private void btaddb_Click(object sender, EventArgs e)
+        private void btaddb_Click(object sender, EventArgs e)
         {
             string name = tbbn.Text;
             int categoryID = (cbcate.SelectedItem as Category).ID;
