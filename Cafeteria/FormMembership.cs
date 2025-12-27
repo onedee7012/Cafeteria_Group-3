@@ -15,6 +15,10 @@ namespace Cafeteria
         public FormMembership()
         {
             InitializeComponent();
+            dtgvMembership.DataSource = membershipList;
+            this.dtgvMembership.RowPrePaint += dtgvMembership_RowPrePaint;
+            LoadListMembership();
+            AddMembershipBinding();
         }
 
         void LoadListMembership()
@@ -113,4 +117,6 @@ namespace Cafeteria
                 }
 
             }
+        }
+    }
 }
