@@ -12,9 +12,40 @@ namespace Cafeteria
 {
     public partial class FormAdmin : Form
     {
+        BindingSource beverageList = new BindingSource();
+        BindingSource accountList = new BindingSource();
+        BindingSource ingredientList = new BindingSource();
+        private string image = "";
+        private string imageFolder = Path.Combine(Application.StartupPath, "images");
+
+        public Account loginAccount;
         public FormAdmin()
         {
             InitializeComponent();
+            this.dtgvIngredient.CellFormatting += new DataGridViewCellFormattingEventHandler(this.dtgvIngredient_CellFormatting);
+            tbiq.TextChanged += (s, e) => UpdateLeftQuantity();
+            tbiuq.TextChanged += (s, e) => UpdateLeftQuantity();
+            dtgvBeverage.DataSource = beverageList;
+            dtgvBeverage.SelectionChanged += dtgvBeverage_SelectionChanged;
+            dtgvAccount.DataSource = accountList;
+            dtgvAccount.SelectionChanged += dtgvAccount_SelectionChanged;
+            dtgvIngredient.DataSource = ingredientList;
+            LoadListBeverage();
+            LoadAccount();
+            LoadListIngredient();
+            LoadCategoryIntoCombobox(cbcate);
+            AddBeverageBinding();
+            AddAccountBinding();
+            AddIngredientBinding();
+            LoadDateTimePickerBill();
+            LoadListBillByDate(dtpstart.Value, dtpend.Value);
+            LoadDatePickerBillInfor();
+            LoadListBill(dtpss.Value, dtpse.Value);
+            LoadStaffToComboBox();
+            LoadBillIDToComboBox();
+            cbib.DropDownStyle = ComboBoxStyle.DropDown;
+            cbib.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cbib.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         private void LoadStaffToComboBox()
@@ -492,7 +523,39 @@ namespace Cafeteria
             statForm.LoadRevenueByStaffChart(revenueByStaff);
             statForm.ShowDialog();
         }
-        
+
+        void AddBeverageBinding()
+        {
+            tbbn.DataBindings.Add(new Binding("Text", dtgvBeverage.DataSource, "name", true, DataSourceUpdateMode.Never));
+            tbbid.DataBindings.Add(new Binding("Text", dtgvBeverage.DataSource, "id", true, DataSourceUpdateMode.Never));
+            tbprice.DataBindings.Add(new Binding("Text", dtgvBeverage.DataSource, "price", true, DataSourceUpdateMode.Never));
+            dtgvBeverage.SelectionChanged += dtgvBeverage_SelectionChanged;
+            ShowImage();
+        }
+
+        private void dtgvBeverage_SelectionChanged(object sender, EventArgs e)
+        {
+            ShowImage();
+        }
+
+        private void ShowImage()
+        {
+            if (dtgvBeverage.CurrentRow != null)
+            {
+                var cellValue = dtgvBeverage.CurrentRow.Cells["image"].Value;
+                string imagePath = cellValue != null ? cellValue.ToString() : "";
+
+                if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                {
+                    ptbbe.Image = Image.FromFile(imagePath);
+                }
+                else
+                {
+                    ptbbe.Image = null;
+                }
+            }
+        }
+  
         private void tbbid_TextChanged(object sender, EventArgs e)
         {
             if (dtgvBeverage.SelectedCells.Count > 0)
@@ -584,6 +647,50 @@ namespace Cafeteria
             add { insertBeverage += value; }
             remove { insertBeverage -= value; }
         }
+        private event EventHandler updateBeverage;
+        public event EventHandler UpdateBeverage
+        {
+            add { updateBeverage += value; }
+            remove { updateBeverage -= value; }
+        }
+        private event EventHandler deleteBeverage;
+        public event EventHandler DeleteBeverage
+        {
+            add { deleteBeverage += value; }
+            remove { deleteBeverage -= value; }
+        }
+
+        private void btimbe_Click(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(imageFolder))
+            {
+                Directory.CreateDirectory(imageFolder);
+            }
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Choose picture";
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string sourcePath = openFileDialog.FileName;
+                string fileName = Path.GetFileNameWithoutExtension(sourcePath);
+                string ext = Path.GetExtension(sourcePath);
+                string uniqueFileName = $"{fileName}_{DateTime.Now.Ticks}{ext}";
+                string destPath = Path.Combine(imageFolder, uniqueFileName);
+                try
+                {
+                    File.Copy(sourcePath, destPath, false);
+                    using (FileStream fs = new FileStream(destPath, FileMode.Open, FileAccess.Read))
+                    {
+                        ptbbe.Image = Image.FromStream(fs);
+                    }
+                    image = destPath;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error copying image: " + ex.Message);
+                }
+            }
+        }
 
         private void LoadBillIDToComboBox()
         {
@@ -621,6 +728,31 @@ namespace Cafeteria
             FormReceipt receiptForm = new FormReceipt();
             receiptForm.LoadReport(billID, tableName, checkin, checkout, staff, memberName, price, discount, total, point, menuList);
             receiptForm.ShowDialog();
+        }
+
+        private void btlogoutb_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btlogouts_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btlogouti_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btlogincome_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btlogst_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
