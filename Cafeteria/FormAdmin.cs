@@ -323,6 +323,7 @@ namespace Cafeteria
                 
             }
         }
+
         void LoadDatePickerBillInfor()
         {
             DateTime today = DateTime.Now;
@@ -491,6 +492,7 @@ namespace Cafeteria
             statForm.LoadRevenueByStaffChart(revenueByStaff);
             statForm.ShowDialog();
         }
+        
         private void tbbid_TextChanged(object sender, EventArgs e)
         {
             if (dtgvBeverage.SelectedCells.Count > 0)
