@@ -35,7 +35,7 @@ namespace Cafeteria.DAL
             }
             return null;
         }
-        public DataTable GetListAccount()
+                public DataTable GetListAccount()
         {
             return DataProvider.Instance.ExecuteQuery("SELECT FullName, DateofBirth, UserName, PassWord, Type, Image FROM dbo.Account");
         }
@@ -73,6 +73,8 @@ namespace Cafeteria.DAL
             }
 
             return list;
-        }       
+        }
     }
 }
+        
+        
