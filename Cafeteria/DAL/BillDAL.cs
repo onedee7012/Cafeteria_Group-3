@@ -55,6 +55,36 @@ namespace Cafeteria.DAL
             }
         }
 
+        public DataTable GetListBillByDateTime(DateTime checkin, DateTime checkout)
+        {
+            return DataProvider.Instance.ExecuteQuery("EXEC USP_GetListBillByDateTime @checkin , @checkout", new object[] { checkin, checkout });
+        }
 
+        public DataTable GetListBillByDateAndPage(DateTime checkin, DateTime checkout, int pagenumber)
+        {
+            return DataProvider.Instance.ExecuteQuery("EXEC USP_GetListBillByDateAndPage @checkin , @checkout , @page", new object[] { checkin, checkout, pagenumber });
+        }
+
+        public int GetNumberBillByDate(DateTime checkin, DateTime checkout)
+        {
+            return (int)DataProvider.Instance.ExecuteScalar("EXEC USP_GetNumberBillByDate @checkin , @checkout", new object[] { checkin, checkout });
+        }
+
+        public DataTable GetListBill(DateTime checkin, DateTime checkout)
+        {
+            return DataProvider.Instance.ExecuteQuery("EXEC USP_GetListBill @checkin , @checkout", new object[] { checkin, checkout });
+        }
+
+        public Bill GetBillByID(int id)
+        {
+            string query = "SELECT dbo.Bill.*, dbo.CoffeeTable.name FROM dbo.Bill JOIN dbo.CoffeeTable ON dbo.Bill.idTable = dbo.CoffeeTable.id WHERE dbo.Bill.id = " + id;
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+            if (data.Rows.Count > 0)
+            {
+                return new Bill(data.Rows[0]);
+            }
+            return null;
+        }
     }
 }
