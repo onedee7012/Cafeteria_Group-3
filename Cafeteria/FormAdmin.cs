@@ -310,5 +310,118 @@ namespace Cafeteria
             DeleteAccount(userName);
         }
 
+        void LoadDatePickerBillInfor()
+        {
+            DateTime today = DateTime.Now;
+            dtpss.Value = new DateTime(today.Year, today.Month, 1);
+            dtpse.Value = dtpss.Value.AddMonths(1).AddDays(-1).Date.AddDays(1).AddTicks(-1);
+        }
+        void LoadListBill(DateTime checkin, DateTime checkout)
+        {
+            dtgvStatistics.DataSource = BillDAL.Instance.GetListBill(checkin, checkout);
+        }
+        private void btloads_Click(object sender, EventArgs e)
+        {
+            LoadListBill(dtpss.Value, dtpse.Value);
+        }
+
+        private void LoadBestSellerChart(Dictionary<string, int> dishCounts)
+        {
+            var top5 = dishCounts
+                .OrderByDescending(x => x.Value)
+                .Take(5)
+                .ToList();
+            chartsell.Series.Clear();
+            chartsell.ChartAreas.Clear();
+            chartsell.ChartAreas.Add("Main");
+            chartsell.ChartAreas["Main"].AxisX.LabelStyle.Angle = -45;
+            var series = new System.Windows.Forms.DataVisualization.Charting.Series("Top 5 Best-seller");
+            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            foreach (var item in top5)
+            {
+                series.Points.AddXY(item.Key, item.Value);
+            }
+            chartsell.Series.Add(series);
+        }
+        private void btbs_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, int> dishCounts = new Dictionary<string, int>();
+            foreach (DataGridViewRow row in dtgvStatistics.Rows)
+            {
+                if (row.Cells["name"].Value != null && row.Cells["quantity"].Value != null)
+                {
+                    string bename = row.Cells["name"].Value.ToString();
+                    int bequantity = Convert.ToInt32(row.Cells["quantity"].Value);
+                    if (dishCounts.ContainsKey(bename))
+                    {
+                        dishCounts[bename] += bequantity;
+                    }
+                    else
+                    {
+                        dishCounts[bename] = bequantity;
+                    }
+                }
+            }
+            if (dishCounts.Count > 0)
+            {
+                LoadBestSellerChart(dishCounts);
+            }
+        }
+
+        private List<string> GetAllDishNames()
+        {
+            return BeverageDAL.Instance.GetListBeverage()
+                                    .Select(b => b.Name)
+                                    .Distinct()
+                                    .ToList();
+        }
+        private void LoadWorstSellerChart(Dictionary<string, int> dishCounts)
+        {
+            chartsell.Series.Clear();
+            chartsell.ChartAreas.Clear();
+            chartsell.ChartAreas.Add("Main");
+            chartsell.ChartAreas["Main"].AxisX.LabelStyle.Angle = -45;
+            var series = new System.Windows.Forms.DataVisualization.Charting.Series("Worst-seller");
+            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            foreach (var item in dishCounts)
+            {
+                int index = series.Points.AddXY(item.Key, item.Value);
+                if (item.Value == 0)
+                {
+                    series.Points[index].Color = System.Drawing.Color.OrangeRed; 
+                }
+            }
+            chartsell.Series.Add(series);
+        }
+
+        private void btws_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, int> dishCounts = new Dictionary<string, int>();
+            List<string> allDishNames = GetAllDishNames();
+            foreach (string name in allDishNames)
+                dishCounts[name] = 0;
+            foreach (DataGridViewRow row in dtgvStatistics.Rows)
+            {
+                if (row.Cells["name"].Value != null && row.Cells["quantity"].Value != null)
+                {
+                    string name = row.Cells["name"].Value.ToString();
+                    int quantity = Convert.ToInt32(row.Cells["quantity"].Value);
+                    if (dishCounts.ContainsKey(name))
+                        dishCounts[name] += quantity;
+                }
+            }
+            var zeroSold = dishCounts.Where(x => x.Value == 0).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<string, int> chartData;
+            if (zeroSold.Count > 0)
+            {
+                chartData = zeroSold;
+            }
+            else
+            {
+                var bottom3 = dishCounts.OrderBy(x => x.Value).Take(3).ToDictionary(x => x.Key, x => x.Value);
+                chartData = bottom3;
+            }
+            LoadWorstSellerChart(chartData);
+        }
     }
 }
