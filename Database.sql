@@ -257,3 +257,23 @@ BEGIN
 	WHERE DateCheckin >= @checkin AND DateCheckout <= @checkout AND dbo.Bill.status = 1 AND dbo.Beverage.id = dbo.BillInfor.idBeverage AND dbo.Bill.id = dbo.BillInfor.idBill 
 END
 GO
+
+CREATE PROC USP_UpdateAccount
+@username nvarchar(100), @fullname nvarchar(100), @password nvarchar(100), @newpassword nvarchar(100), @image nvarchar(300)
+AS
+BEGIN
+	DECLARE @isRightPassword INT
+
+	SELECT @isRightPassword = COUNT(*) FROM dbo.Account WHERE UserName = @username AND PassWord = @password
+
+	IF (@isRightPassword = 1)
+	BEGIN
+		IF (@newpassword = NULL OR @newpassword = '')
+		BEGIN
+			UPDATE dbo.Account SET FullName = @fullname, Image = @image WHERE UserName = @username
+		END
+		ELSE
+			UPDATE dbo.Account SET FullName = @fullname, Image = @image, PassWord = @newpassword WHERE UserName = @username
+		END
+END
+GO

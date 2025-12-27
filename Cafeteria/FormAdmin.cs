@@ -309,6 +309,146 @@ namespace Cafeteria
             string userName = tbuser.Text;
             DeleteAccount(userName);
         }
+        
+        private void dtgvIngredient_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dtgvIngredient.Rows[e.RowIndex].Cells["leftquantity"].Value != null)
+            {
+                int leftValue;
+                bool isParsed = int.TryParse(dtgvIngredient.Rows[e.RowIndex].Cells["leftquantity"].Value.ToString(), out leftValue);
+                if (isParsed && leftValue < 2)
+                {
+                    dtgvIngredient.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                }
+                
+            }
+
+        void LoadDatePickerBillInfor()
+        {
+            DateTime today = DateTime.Now;
+            dtpss.Value = new DateTime(today.Year, today.Month, 1);
+            dtpse.Value = dtpss.Value.AddMonths(1).AddDays(-1).Date.AddDays(1).AddTicks(-1);
+        }
+        void LoadListBill(DateTime checkin, DateTime checkout)
+        {
+            dtgvStatistics.DataSource = BillDAL.Instance.GetListBill(checkin, checkout);
+        }
+        private void btloads_Click(object sender, EventArgs e)
+        {
+            LoadListBill(dtpss.Value, dtpse.Value);
+        }
+
+        private void LoadBestSellerChart(Dictionary<string, int> dishCounts)
+        {
+            var top5 = dishCounts
+                .OrderByDescending(x => x.Value)
+                .Take(5)
+                .ToList();
+            chartsell.Series.Clear();
+            chartsell.ChartAreas.Clear();
+            chartsell.ChartAreas.Add("Main");
+            chartsell.ChartAreas["Main"].AxisX.LabelStyle.Angle = -45;
+            var series = new System.Windows.Forms.DataVisualization.Charting.Series("Top 5 Best-seller");
+            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            foreach (var item in top5)
+            {
+                series.Points.AddXY(item.Key, item.Value);
+            }
+            chartsell.Series.Add(series);
+        }
+        private void btbs_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, int> dishCounts = new Dictionary<string, int>();
+            foreach (DataGridViewRow row in dtgvStatistics.Rows)
+            {
+                if (row.Cells["name"].Value != null && row.Cells["quantity"].Value != null)
+                {
+                    string bename = row.Cells["name"].Value.ToString();
+                    int bequantity = Convert.ToInt32(row.Cells["quantity"].Value);
+                    if (dishCounts.ContainsKey(bename))
+                    {
+                        dishCounts[bename] += bequantity;
+                    }
+                    else
+                    {
+                        dishCounts[bename] = bequantity;
+                    }
+                }
+            }
+            if (dishCounts.Count > 0)
+            {
+                LoadBestSellerChart(dishCounts);
+            }
+        }
+
+        private List<string> GetAllDishNames()
+        {
+            return BeverageDAL.Instance.GetListBeverage()
+                                    .Select(b => b.Name)
+                                    .Distinct()
+                                    .ToList();
+        }
+        private void LoadWorstSellerChart(Dictionary<string, int> dishCounts)
+        {
+            chartsell.Series.Clear();
+            chartsell.ChartAreas.Clear();
+            chartsell.ChartAreas.Add("Main");
+            chartsell.ChartAreas["Main"].AxisX.LabelStyle.Angle = -45;
+            var series = new System.Windows.Forms.DataVisualization.Charting.Series("Worst-seller");
+            series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            foreach (var item in dishCounts)
+            {
+                int index = series.Points.AddXY(item.Key, item.Value);
+                if (item.Value == 0)
+                {
+                    series.Points[index].Color = System.Drawing.Color.OrangeRed; 
+                }
+            }
+            chartsell.Series.Add(series);
+        }
+
+        private void btws_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, int> dishCounts = new Dictionary<string, int>();
+            List<string> allDishNames = GetAllDishNames();
+            foreach (string name in allDishNames)
+                dishCounts[name] = 0;
+            foreach (DataGridViewRow row in dtgvStatistics.Rows)
+            {
+                if (row.Cells["name"].Value != null && row.Cells["quantity"].Value != null)
+                {
+                    string name = row.Cells["name"].Value.ToString();
+                    int quantity = Convert.ToInt32(row.Cells["quantity"].Value);
+                    if (dishCounts.ContainsKey(name))
+                        dishCounts[name] += quantity;
+                }
+            }
+            var zeroSold = dishCounts.Where(x => x.Value == 0).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<string, int> chartData;
+            if (zeroSold.Count > 0)
+            {
+                chartData = zeroSold;
+            }
+            else
+            {
+                var bottom3 = dishCounts.OrderBy(x => x.Value).Take(3).ToDictionary(x => x.Key, x => x.Value);
+                chartData = bottom3;
+            }
+            LoadWorstSellerChart(chartData);
+         void LoadCategoryIntoCombobox(ComboBox cb)
+        {
+             cb.DataSource = CategoryDAL.Instance.GetListCategory();
+             cb.DisplayMember = "Name";
+        }
+        void LoadListBeverage()
+        {
+            beverageList.DataSource = BeverageDAL.Instance.GetListBeverage();
+             if (dtgvBeverage.Columns["price"] != null)
+             {
+                 dtgvBeverage.Columns["price"].DefaultCellStyle.Format = "#,0.000";
+                 dtgvBeverage.Columns["price"].DefaultCellStyle.FormatProvider = new CultureInfo("vi-VN");
+             }
+        }
 
         private void btsi_Click(object sender, EventArgs e)
         {
@@ -348,6 +488,134 @@ namespace Cafeteria
             FormStatistics statForm = new FormStatistics();
             statForm.LoadRevenueByStaffChart(revenueByStaff);
             statForm.ShowDialog();
+        private void tbbid_TextChanged(object sender, EventArgs e)
+        {
+            if (dtgvBeverage.SelectedCells.Count > 0)
+            {
+                int id = (int)dtgvBeverage.SelectedCells[0].OwningRow.Cells["CategoryID"].Value;
+                Category category = CategoryDAL.Instance.GetCategoryByID(id);
+                cbcate.SelectedItem = category;
+                int index = -1;
+                int i = 0;
+                foreach (Category item in cbcate.Items)
+                {
+                    if (item.ID == category.ID)
+                    {
+                        index = i;
+                        break;
+                    }
+                    i++;
+                }
+                cbcate.SelectedIndex = index;
+            }
+        }
+
+         private void btaddb_Click(object sender, EventArgs e)
+        {
+            string name = tbbn.Text;
+            int categoryID = (cbcate.SelectedItem as Category).ID;
+            int price = int.Parse(tbprice.Text);
+            bool success = BeverageDAL.InsertBeverage(name, categoryID, price, image);
+
+             if (success)
+             {
+                 MessageBox.Show("Add beverage successfully");
+                 LoadListBeverage();
+                if (insertBeverage != null)
+                {
+                    insertBeverage(this, new EventArgs());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Add failed");
+            }
+        }
+
+        private void btupb_Click(object sender, EventArgs e)
+        {
+            string name = tbbn.Text;
+            int categoryID = (cbcate.SelectedItem as Category).ID;
+            int price = int.Parse(tbprice.Text);
+            int id = Convert.ToInt32(tbbid.Text);
+            bool success = BeverageDAL.UpdateBeverage(id, name, categoryID, price, image);
+
+            if (success)
+            {
+                MessageBox.Show("Update beverage successfully");
+                LoadListBeverage();
+                if (updateBeverage != null)
+                {
+                    updateBeverage(this, new EventArgs());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Update failed");
+            }
+        }
+
+        private void btdeb_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(tbbid.Text);
+            if (BeverageDAL.Instance.DeleteBeverage(id))
+            {
+                MessageBox.Show("Delete beverage successfully");
+                LoadListBeverage();
+                if (deleteBeverage != null)
+                {
+                    deleteBeverage(this, new EventArgs());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Delete failed");
+            }
+        }
+
+        private event EventHandler insertBeverage;
+        public event EventHandler InsertBeverage
+        {
+            add { insertBeverage += value; }
+            remove { insertBeverage -= value; }
+        }
+
+        private void LoadBillIDToComboBox()
+        {
+            DataTable billTable = BillDAL.Instance.GetListBillByDateTime(new DateTime(1753, 1, 1), DateTime.Now);
+            cbib.DataSource = billTable;
+            cbib.DisplayMember = "id";
+            cbib.ValueMember = "id";
+            cbib.SelectedIndex = -1;
+        }
+        private void btsb_Click(object sender, EventArgs e)
+        {
+            if (cbib.SelectedValue == null)
+            {
+                MessageBox.Show("Please choose the id of the receipt");
+                return;
+            }
+            int billID = Convert.ToInt32(cbib.SelectedValue);
+
+            Bill bill = BillDAL.Instance.GetBillByID(billID);
+            if (bill == null)
+            {
+                MessageBox.Show("Can't find the receipt.");
+                return;
+            }
+            List<Menu> menuList = MenuDAL.Instance.GetListMenuByBill(billID);
+            string tableName = bill.TableName ?? ("Bàn số " + bill.IdTable);
+            DateTime checkin = bill.DateCheckIn ?? DateTime.Now;
+            DateTime checkout = bill.DateCheckOut ?? DateTime.Now;
+            string staff = bill.Staff;
+            string memberName = string.IsNullOrEmpty(bill.NameMember) ? "0" : bill.NameMember;
+            float price = menuList.Sum(m => m.TotalPrice);
+            int discount = bill.Discount;
+            float total = bill.TotalPrice;
+            float point = bill.Point;
+            FormReceipt receiptForm = new FormReceipt();
+            receiptForm.LoadReport(billID, tableName, checkin, checkout, staff, memberName, price, discount, total, point, menuList);
+            receiptForm.ShowDialog();
         }
     }
 }

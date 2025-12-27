@@ -35,5 +35,52 @@ namespace Cafeteria.DAL
             }
             return null;
         }
+                public DataTable GetListAccount()
+        {
+            return DataProvider.Instance.ExecuteQuery("SELECT FullName, DateofBirth, UserName, PassWord, Type, Image FROM dbo.Account");
+        }
+        public bool AddAccount(string username, string fullname, string password, string dateofbirth, int type)
+        {
+            string query = string.Format("INSERT dbo.Account ( UserName, FullName, PassWord, DateofBirth, Type ) VALUES ( N'{0}', N'{1}', N'{2}', N'{3}', {4} )", username, fullname, password, dateofbirth, type);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+
+        public bool UpdateAccount(string username, string fullname, string dateofbirth, int type)
+        {
+            string query = string.Format("UPDATE dbo.Account SET FullName = N'{1}', DateofBirth = N'{2}', Type = {3} WHERE UserName = N'{0}'", username, fullname, dateofbirth, type);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+
+        public bool DeleteAccount(string username)
+        {
+            string query = string.Format("DELETE Account WHERE UserName = N'{0}'", username);
+            int result = DataProvider.Instance.ExecuteNonQuery(query);
+            return result > 0;
+        }
+        public List<Account> GetAccountList()
+        {
+            List<Account> list = new List<Account>();
+            string query = "SELECT * FROM Account";
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+
+            foreach (DataRow row in data.Rows)
+            {
+                Account acc = new Account(row);
+                list.Add(acc);
+            }
+
+            return list;
+        }
+
+        public static bool EditAccount(string userName, string fullName, string passWord, string newpassWord, string image)
+        {
+            int result = DataProvider.Instance.ExecuteNonQuery("EXEC USP_UpdateAccount @username , @password , @fullname , @newpassword , @image", new object[] { userName, fullName, passWord, newpassWord, image });
+            return result > 0;
+        }
     }
 }
+        
+        
