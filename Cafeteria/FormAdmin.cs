@@ -310,6 +310,113 @@ namespace Cafeteria
             DeleteAccount(userName);
         }
 
+         void LoadCategoryIntoCombobox(ComboBox cb)
+        {
+             cb.DataSource = CategoryDAL.Instance.GetListCategory();
+             cb.DisplayMember = "Name";
+        }
+        void LoadListBeverage()
+        {
+            beverageList.DataSource = BeverageDAL.Instance.GetListBeverage();
+             if (dtgvBeverage.Columns["price"] != null)
+             {
+                 dtgvBeverage.Columns["price"].DefaultCellStyle.Format = "#,0.000";
+                 dtgvBeverage.Columns["price"].DefaultCellStyle.FormatProvider = new CultureInfo("vi-VN");
+             }
+        }
+
+        private void tbbid_TextChanged(object sender, EventArgs e)
+        {
+            if (dtgvBeverage.SelectedCells.Count > 0)
+            {
+                int id = (int)dtgvBeverage.SelectedCells[0].OwningRow.Cells["CategoryID"].Value;
+                Category category = CategoryDAL.Instance.GetCategoryByID(id);
+                cbcate.SelectedItem = category;
+                int index = -1;
+                int i = 0;
+                foreach (Category item in cbcate.Items)
+                {
+                    if (item.ID == category.ID)
+                    {
+                        index = i;
+                        break;
+                    }
+                    i++;
+                }
+                cbcate.SelectedIndex = index;
+            }
+        }
+
+         private void btaddb_Click(object sender, EventArgs e)
+        {
+            string name = tbbn.Text;
+            int categoryID = (cbcate.SelectedItem as Category).ID;
+            int price = int.Parse(tbprice.Text);
+            bool success = BeverageDAL.InsertBeverage(name, categoryID, price, image);
+
+             if (success)
+             {
+                 MessageBox.Show("Add beverage successfully");
+                 LoadListBeverage();
+                if (insertBeverage != null)
+                {
+                    insertBeverage(this, new EventArgs());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Add failed");
+            }
+        }
+
+        private void btupb_Click(object sender, EventArgs e)
+        {
+            string name = tbbn.Text;
+            int categoryID = (cbcate.SelectedItem as Category).ID;
+            int price = int.Parse(tbprice.Text);
+            int id = Convert.ToInt32(tbbid.Text);
+            bool success = BeverageDAL.UpdateBeverage(id, name, categoryID, price, image);
+
+            if (success)
+            {
+                MessageBox.Show("Update beverage successfully");
+                LoadListBeverage();
+                if (updateBeverage != null)
+                {
+                    updateBeverage(this, new EventArgs());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Update failed");
+            }
+        }
+
+        private void btdeb_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(tbbid.Text);
+            if (BeverageDAL.Instance.DeleteBeverage(id))
+            {
+                MessageBox.Show("Delete beverage successfully");
+                LoadListBeverage();
+                if (deleteBeverage != null)
+                {
+                    deleteBeverage(this, new EventArgs());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Delete failed");
+            }
+        }
+
+        private event EventHandler insertBeverage;
+        public event EventHandler InsertBeverage
+        {
+            add { insertBeverage += value; }
+            remove { insertBeverage -= value; }
+        }
+
         private void LoadBillIDToComboBox()
         {
             DataTable billTable = BillDAL.Instance.GetListBillByDateTime(new DateTime(1753, 1, 1), DateTime.Now);
