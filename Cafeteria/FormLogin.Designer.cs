@@ -72,7 +72,6 @@
             this.label4.Size = new System.Drawing.Size(194, 64);
             this.label4.TabIndex = 1;
             this.label4.Text = "COFFEE";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label1
             // 
@@ -93,7 +92,6 @@
             this.label2.Size = new System.Drawing.Size(178, 45);
             this.label2.TabIndex = 2;
             this.label2.Text = "Username:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -104,7 +102,6 @@
             this.label3.Size = new System.Drawing.Size(168, 45);
             this.label3.TabIndex = 3;
             this.label3.Text = "Password:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // chbshowpass
             // 
@@ -218,7 +215,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
             // 
             // label6
             // 
@@ -230,7 +226,6 @@
             this.label6.Size = new System.Drawing.Size(469, 64);
             this.label6.TabIndex = 4;
             this.label6.Text = ".                                       ";
-            this.label6.Click += new System.EventHandler(this.label6_Click_1);
             // 
             // label7
             // 
@@ -263,7 +258,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormLogin";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLogin_FormClosing);
-            this.Load += new System.EventHandler(this.FormLogin_Load);
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
