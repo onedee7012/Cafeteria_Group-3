@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cafeteria.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,7 @@ namespace Cafeteria
 {
     public partial class FormMembership : Form
     {
+        BindingSource membershipList = new BindingSource();
         public FormMembership()
         {
             InitializeComponent();
@@ -60,9 +62,9 @@ namespace Cafeteria
             }
             LoadListMembership();
         }
-        
+
         void DeleteMembership(int id)
-        { 
+        {
             if (MembershipDAL.Instance.DeleteMembership(id))
             {
                 MessageBox.Show("Delete membership successfully");
@@ -123,5 +125,6 @@ namespace Cafeteria
         {
             this.Close();
         }
+
     }
 }
