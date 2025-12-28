@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Cafeteria.DTO;
+using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -26,7 +29,7 @@ namespace Cafeteria
             this.LoginAccount = acc;
             LoadUserInfo();
         }
-        
+
         void ChangeAccount(int type)
         {
             adminToolStripMenuItem.Visible = type == 1;
@@ -78,3 +81,4 @@ namespace Cafeteria
         }
     }
 }
+
