@@ -81,9 +81,6 @@
     <Compile Include="DAL\MembershipDAL.cs" />
     <Compile Include="DAL\MenuDAL.cs" />
     <Compile Include="DAL\TableDAL.cs" />
-    <Compile Include="DatasetReceipt.cs">
-      <DependentUpon>DatasetReceipt.xsd</DependentUpon>
-    </Compile>
     <Compile Include="DatasetReceipt.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
