@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF85D87F-1B49-4946-AD4E-4AE8D9C960FC}</ProjectGuid>
+    <ProjectGuid>{38F8ADFA-BF0E-448D-9C62-171E2EC25637}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Cafeteria</RootNamespace>
     <AssemblyName>Cafeteria</AssemblyName>
@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,9 +57,17 @@
       <HintPath>packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Design" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +79,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\AccountDAL.cs" />
@@ -81,9 +92,6 @@
     <Compile Include="DAL\MembershipDAL.cs" />
     <Compile Include="DAL\MenuDAL.cs" />
     <Compile Include="DAL\TableDAL.cs" />
-    <Compile Include="DatasetReceipt.cs">
-      <DependentUpon>DatasetReceipt.xsd</DependentUpon>
-    </Compile>
     <Compile Include="DatasetReceipt.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -122,17 +130,17 @@
     <Compile Include="FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormOrder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormOrder.Designer.cs">
-      <DependentUpon>FormOrder.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMembership.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMembership.Designer.cs">
       <DependentUpon>FormMembership.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOrder.Designer.cs">
+      <DependentUpon>FormOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="FormReceipt.cs">
       <SubType>Form</SubType>
@@ -149,29 +157,17 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <EmbeddedResource Include="FormAccount.resx">
-      <DependentUpon>FormAccount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormAdmin.resx">
-      <DependentUpon>FormAdmin.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormHome.resx">
       <DependentUpon>FormHome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormOrder.resx">
-      <DependentUpon>FormOrder.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormMembership.resx">
       <DependentUpon>FormMembership.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormReceipt.resx">
-      <DependentUpon>FormReceipt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormStatistics.resx">
-      <DependentUpon>FormStatistics.cs</DependentUpon>
+    <EmbeddedResource Include="FormOrder.resx">
+      <DependentUpon>FormOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -181,7 +177,6 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Content Include="Receipt.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -210,9 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\294428187_5913053032056027_8041774517574902415_n.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SqlServerTypes\readme.htm" />
