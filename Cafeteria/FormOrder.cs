@@ -18,7 +18,6 @@ namespace Cafeteria
 {
     public partial class FormOrder : Form
     {
-        BindingSource membershipList = new BindingSource();
         private Account loginAccount;
         public Account LoginAccount
         {
@@ -270,10 +269,17 @@ namespace Cafeteria
             }
         }
 
-        private void btlogout_Click(object sender, EventArgs e)
+        private void ResetForm()
         {
-            this.Close();
-        }   
+            tbdiscount.Text = "";
+            tbidmb.Text = "";
+            tbmb.Text = "";
+            tbmp.Text = "";
+            tbprice.Text = "";
+            tbamount.Text = "";
+            tbchange.Text = "";
+            tbtotal.Text = "0";
+        }
     }
 }
 
