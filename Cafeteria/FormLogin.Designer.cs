@@ -160,8 +160,6 @@
             this.tbuser.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.tbuser.ForeColor = System.Drawing.Color.Black;
             this.tbuser.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbuser.IconLeft = ((System.Drawing.Image)(resources.GetObject("tbuser.IconLeft")));
-            this.tbuser.IconLeftSize = new System.Drawing.Size(32, 20);
             this.tbuser.Location = new System.Drawing.Point(480, 255);
             this.tbuser.Margin = new System.Windows.Forms.Padding(7, 9, 7, 9);
             this.tbuser.Name = "tbuser";
@@ -184,8 +182,6 @@
             this.tbpass.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.tbpass.ForeColor = System.Drawing.Color.Black;
             this.tbpass.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbpass.IconLeft = ((System.Drawing.Image)(resources.GetObject("tbpass.IconLeft")));
-            this.tbpass.IconLeftSize = new System.Drawing.Size(32, 20);
             this.tbpass.Location = new System.Drawing.Point(481, 411);
             this.tbpass.Margin = new System.Windows.Forms.Padding(7, 9, 7, 9);
             this.tbpass.Name = "tbpass";
